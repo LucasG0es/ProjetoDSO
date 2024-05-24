@@ -11,7 +11,7 @@ class Curso:
         if isinstance(codigo, int):
             self.__codigo = codigo
 
-    #Getters
+    # Getters
 
     @property
     def nome(self):
@@ -21,8 +21,8 @@ class Curso:
     def codigo(self):
         return self.__codigo
     
-    #Setters
-    
+    # Setters
+
     @nome.setter
     def nome(self, nome):
         if isinstance(nome, str):

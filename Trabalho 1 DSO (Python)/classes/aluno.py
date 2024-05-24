@@ -18,6 +18,8 @@ class Aluno(Pessoa):
         if isinstance(quantidade_gols, int):
             self.__quantidade_gols = quantidade_gols
 
+    # Getters
+
     @property
     def curso(self):
         return self.__curso
@@ -30,6 +32,8 @@ class Aluno(Pessoa):
     def quantidade_gols(self):
         return self.__quantidade_gols
 
+    # Setters
+    
     @curso.setter
     def curso(self, curso):
         if isinstance(curso, Curso):

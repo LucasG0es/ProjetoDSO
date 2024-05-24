@@ -22,7 +22,7 @@ class Pessoa(ABC):
         if isinstance(ano, int):
             self.__data_de_nascimento["ano"] = ano
 
-    #Getters
+    # Getters
 
     @property
     def nome(self):
@@ -36,8 +36,8 @@ class Pessoa(ABC):
     def data_de_nascimento(self):
         return self.__data_de_nascimento
 
-    #Setters
-    
+    # Setters
+
     @nome.setter
     def nome(self, nome):
         if isinstance(nome, str):
