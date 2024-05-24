@@ -4,13 +4,14 @@ class TelaPartida:
 
     def tela_inicial(self):
         print()
-        print("----- Menu de Cursos -----")
+        print("----- Menu de Partidas do Campeonato -----")
         print("Escolha uma opção")
         print("1 - Listar Partidas")
         print("2 - Incluir Partida")
         print("3 - Editar Partida")
         print("4 - Excluir Partida")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:
@@ -19,12 +20,14 @@ class TelaPartida:
         return opcao
     
     def tela_partida(self):
+        print()
         print("Escolha a alteração desejada")
         print("1 - Adicionar Gol")
         print("2 - Alterar Arbitro")
         print("3 - Incluir Equipe")
         print("4 - Remover Equipe")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:

@@ -4,13 +4,14 @@ class TelaEquipe:
 
     def tela_inicial(self):
         print()
-        print("----- Menu de Cursos -----")
+        print("----- Menu de Equipes -----")
         print("Escolha uma opção")
         print("1 - Listar Equipes")
         print("2 - Incluir Equipe")
         print("3 - Editar Equipe")
         print("4 - Excluir Equipe")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:
@@ -19,6 +20,7 @@ class TelaEquipe:
         return opcao
     
     def tela_equipe(self):
+        print()
         print("Escolha a alteração desejada")
         print("1 - Alterar Nome")
         print("2 - Alterar Curso")
@@ -26,6 +28,7 @@ class TelaEquipe:
         print("4 - Remover Aluno")
         print("5 - Listar Alunos")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 5:

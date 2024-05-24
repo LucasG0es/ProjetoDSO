@@ -61,6 +61,7 @@ class Partida:
             return
 
         self.__gols[equipe] = self.__gols[equipe] + 1
+        aluno.quantidade_gols = aluno.quantidade_gols + 1
     
     def calcula_resultado(self):
         if len(self.__equipes) < 2:
@@ -69,7 +70,7 @@ class Partida:
         gols = self.__gols
 
         if gols[self.__equipes[0]] == gols[self.__equipes[1]]:
-            return [self.__equipes]
+            return self.__equipes
 
         elif gols[self.__equipes[0]] > gols[self.__equipes[1]]:
             return [self.__equipes[0]]

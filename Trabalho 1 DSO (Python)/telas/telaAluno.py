@@ -3,6 +3,7 @@
 class TelaAluno:
 
     def tela_inicial(self):
+        print()
         print("----- Menu de Alunos -----")
         print("Escolha uma opção")
         print("1 - Listar Alunos")
@@ -10,6 +11,7 @@ class TelaAluno:
         print("3 - Editar Aluno")
         print("4 - Excluir Aluno")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:
@@ -18,10 +20,12 @@ class TelaAluno:
         return opcao
 
     def tela_aluno(self):
+        print()
         print("Escolha a alteração desejada")
         print("1 - Alterar Nome")
         print("2 - Alterar Curso")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 2:

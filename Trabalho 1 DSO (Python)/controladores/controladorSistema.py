@@ -2,6 +2,7 @@ from controladores.controladorCurso import ControladorCurso
 from controladores.controladorEquipe import ControladorEquipe
 from controladores.controladorAluno import ControladorAluno
 from controladores.controladorArbitro import ControladorArbitro
+from controladores.controladorCampeonato import ControladorCampeonato
 from telas.telaSistema import TelaSistema
 
 class ControladorSistema:
@@ -10,6 +11,7 @@ class ControladorSistema:
         self.controlador_aluno = ControladorAluno(self)
         self.controlador_equipe = ControladorEquipe(self)
         self.controlador_arbitro = ControladorArbitro(self)
+        self.controlador_campeonato = ControladorCampeonato(self)
 
         self.__tela = TelaSistema()
     
@@ -32,6 +34,9 @@ class ControladorSistema:
             
             if  opcao_tela == 4:
                 self.controlador_arbitro.abrir_tela()
+            
+            if  opcao_tela == 5:
+                self.controlador_campeonato.abrir_tela()
 
             # Encerra a tela
             elif opcao_tela == 0:

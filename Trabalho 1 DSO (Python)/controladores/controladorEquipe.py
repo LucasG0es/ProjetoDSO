@@ -111,6 +111,7 @@ class ControladorEquipe:
                         equipe.incluir_aluno(aluno)
                 
                 elif opcao == 4:
+                    controlador_aluno = self.__controlador_sistema.controlador_aluno
                     self.listar_alunos_equipe(equipe)
 
                     matricula = int(self.__tela.solicitar_input("Matricula do Aluno"))

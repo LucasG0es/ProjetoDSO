@@ -3,6 +3,7 @@
 class TelaArbitro:
 
     def tela_inicial(self):
+        print()
         print("----- Menu de Arbitro -----")
         print("Escolha uma opção")
         print("1 - Listar Arbitros")
@@ -10,6 +11,7 @@ class TelaArbitro:
         print("3 - Alterar Arbitro")
         print("4 - Excluir Arbitro")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:
@@ -18,9 +20,11 @@ class TelaArbitro:
         return opcao
     
     def tela_arbitro(self):
+        print()
         print("Escolha a alteração desejada")
         print("1 - Alterar Nome")
         print("0 - Retornar")
+        print()
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 1:
@@ -44,7 +48,7 @@ class TelaArbitro:
 
         print()
         print(f"Nome: {nome}")
-        print(f"cpf: {cpf}")
+        print(f"CPF: {cpf}")
         print(f"Data de Nascimento: {nascimento}")
         print(f"Número de partidas: {partidas}")
         print()

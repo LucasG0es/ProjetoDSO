@@ -10,6 +10,10 @@ class ControladorPartida:
         self.__tela = TelaPartida()
         self.__controlador_sistema = controlador_sistema
         self.__campeonato = campeonato
+
+    @property
+    def partidas(self):
+        return self.__partidas
     
     def encontrar_partida_por_codigo(self, codigo: int):
         # While que passa pelas partidas, retorna a partida com o codigo informado se existir,
@@ -17,7 +21,7 @@ class ControladorPartida:
         i = 0
         partidas = self.__partidas
         while i < len(partidas):
-            partida = partida[i]
+            partida = partidas[i]
             if partida.codigo == codigo:
                 return partida
 
@@ -43,15 +47,15 @@ class ControladorPartida:
             return
 
         equipes = partida.equipes
-        if len(equipes) < 1:
-            equipes = "Indefinido"
+        if len(equipes) == 0:
+            nomes = "Indefinido"
             placar = "0 x 0"
-        elif len(equipes) < 2:
-            equipes = equipes[0].nome
+        elif len(equipes) == 1:
+            nomes = equipes[0].nome
             placar = "0 x 0"
-        else:
-            equipes = equipes[0].nome + " x " + equipes[1].nome
-            placar = partida.gols[equipes[0]] + " x " + partida.gols[equipes[1]]
+        elif len(equipes) == 2:
+            nomes = equipes[0].nome + " x " + equipes[1].nome
+            placar = str(partida.gols[equipes[0]]) + " x " + str(partida.gols[equipes[1]])
 
         retorno_resultado = partida.calcula_resultado()
         if retorno_resultado == None:
@@ -63,7 +67,7 @@ class ControladorPartida:
 
 
         dados = {}
-        dados["equipes"] = equipes
+        dados["equipes"] = nomes
         dados["placar"] = placar
         dados["resultado"] = resultado
         dados["arbitro"] = partida.arbitro.nome
@@ -71,9 +75,11 @@ class ControladorPartida:
 
         self.__tela.mostrar_partida(dados)
         
-    def listar_partidas(self):
+    def listar_partidas(self, partidas = None):
         # Envia os dados do equipe que serão exibidos pela tela
-        partidas = self.__partidas
+        if partidas == None:
+            partidas = self.__partidas
+            
         i = 0
         while i < len(partidas):
             self.mostrar_partida(partidas[i])
@@ -182,9 +188,9 @@ class ControladorPartida:
 
                     controlador_arbitro.listar_arbitros()
 
-                    codigo_arbitro = int(self.__tela.solicitar_input("Codigo do Arbitro"))
-                    arbitro = controlador_arbitro.encontrar_arbitro_por_codigo(codigo_arbitro)
-                    continua = codigo_arbitro != 0
+                    cpf_arbitro = int(self.__tela.solicitar_input("CPF do Arbitro"))
+                    arbitro = controlador_arbitro.encontrar_arbitro_por_cpf(cpf_arbitro)
+                    continua = cpf_arbitro != 0
 
                 if continua:
                     self.incluir_partida(codigo=codigo, arbitro=arbitro)
