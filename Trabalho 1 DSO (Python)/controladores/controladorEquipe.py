@@ -10,8 +10,8 @@ class ControladorEquipe:
         self.__controlador_sistema = controlador_sistema
     
     def encontrar_equipe_por_codigo(self, codigo: int):
-        # While que passa pelos Equipes, retorna a Equipe com o codigo informado se existir,
-        # se não retorna None
+        # Recebe um codigo
+        # Retorna um curso com o codigo informado, se existir
         i = 0
         equipes = self.__equipes
         while i < len(equipes):
@@ -23,22 +23,23 @@ class ControladorEquipe:
         return None
 
     def incluir_equipe(self, nome: str, curso: Curso, codigo: int):
-        # Verifica se o Equipe já existe, e caso exista para o código
+        # Recebe dados para uma nova equipe
+        # Se o codigo informado já não pertencer a uma equipe, inclui essa equipe na lista
 
         if not (isinstance(nome, str) and isinstance(curso, Curso) and isinstance(codigo, int)) or self.encontrar_equipe_por_codigo(codigo) != None:
             return
 
-        # Adiciona a Equipe na lista de Equipes
         equipe = Equipe(nome=nome, curso=curso, codigo=codigo)
         self.__equipes.append(equipe)
     
     def excluir_equipe(self,codigo):
+        # Recebe um codigo, e remove uma equipe com esse codigo, se existir
         equipe = self.encontrar_equipe_por_codigo(codigo)
         if equipe != None:
             self.__equipes.remove(equipe)
         
     def listar_equipes(self, equipes=None):
-        # Envia os dados do equipe que serão exibidos pela tela
+        # Encaminha os codigos de cada equipe para a exibição da tela
         if equipes == None:
             equipes = self.__equipes
         i = 0
@@ -55,7 +56,7 @@ class ControladorEquipe:
             i = i + 1
 
     def listar_alunos_equipe(self, equipe):
-        # Envia os dados do aluno que serão exibidos pela tela
+        # Encaminha os dados de cada aluno dentro de uma equipe para ser exibido pela tela
         alunos = equipe.alunos
         controlador_aluno = self.__controlador_sistema.controlador_aluno
         i = 0
@@ -65,16 +66,14 @@ class ControladorEquipe:
             i = i + 1
         
     def alterar_equipe(self):
-        #Listar equipes para o usuario
+        # Acessa uma equipe para editar
         self.listar_equipes()
 
-        #Coleta input de um codigo
         codigo = int(self.__tela.solicitar_input("Código da Equipe"))
         equipe = self.encontrar_equipe_por_codigo(codigo)
         continua = codigo != 0 and equipe != None
         
         if continua:           
-            #Tela de alteração de dados
             condicao_tela_equipe = True
             while condicao_tela_equipe:
                 dados = {}
@@ -129,33 +128,27 @@ class ControladorEquipe:
                     condicao_tela_equipe = False
             
     def abrir_tela(self):
-        # Inicia o sistema
+        # Inicia o menu de equipes
         condicao = True
         while condicao:
             opcao_tela = self.__tela.tela_inicial()
 
             # Listar Equipes
             if  opcao_tela == 1:
-
-                #Listar Cursos para o usuario
                 self.listar_equipes()
 
-                #Aguarda input
                 self.__tela.aguardar_input()
 
             # Incluir Equipe
             if  opcao_tela == 2:
 
-                #Coleta input de um codigo
                 codigo = int(self.__tela.solicitar_input("Código da Equipe"))
                 continua = codigo != 0
 
-                #Coleta input de um nome
                 if continua:
                     nome = nome = self.__tela.solicitar_input("Nome da Equipe")
                     continua = nome != 0
                 
-                #Coleta input de um curso
                 if continua:
                     controlador_curso = self.__controlador_sistema.controlador_curso
                     
@@ -174,11 +167,8 @@ class ControladorEquipe:
 
             # Exclui Curso
             if  opcao_tela == 4:
-
-                #Listar Cursos para o usuario
                 self.listar_equipes()
 
-                #Coleta input de um codigo
                 codigo = int(self.__tela.solicitar_input("Código da Equipe"))
                 continua = codigo != 0
 

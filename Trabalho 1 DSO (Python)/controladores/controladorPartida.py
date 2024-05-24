@@ -16,8 +16,8 @@ class ControladorPartida:
         return self.__partidas
     
     def encontrar_partida_por_codigo(self, codigo: int):
-        # While que passa pelas partidas, retorna a partida com o codigo informado se existir,
-        # se não retorna None
+        # Recebe um codigo
+        # Retorna uma partida com o codigo informado se existir
         i = 0
         partidas = self.__partidas
         while i < len(partidas):
@@ -29,20 +29,23 @@ class ControladorPartida:
         return None
 
     def incluir_partida(self, codigo: int, arbitro: Arbitro):
-        # Verifica se a partida já existe, e caso exista para o código
+        # Recebe dados para uma nova partida
+        # Cria uma nova partida com os dados informados se o código já não estiver em uso
         if not (isinstance(arbitro, Arbitro) and isinstance(codigo, int)) or self.encontrar_partida_por_codigo(codigo) != None:
             return
 
-        # Adiciona a partida na lista de partidas
         partida = Partida(codigo=codigo, arbitro=arbitro)
         self.__partidas.append(partida)
     
     def excluir_partida(self,codigo):
+        # Recebe um codigo
+        # Remove uma partida da lista com o codigo se essa partida existir
         partida = self.encontrar_partida_por_codigo(codigo)
         if partida != None:
             self.__partidas.remove(partida)
 
     def mostrar_partida(self,partida):
+        # envia os dados de uma partida para a tela exibir
         if not isinstance(partida, Partida):
             return
 
@@ -76,7 +79,7 @@ class ControladorPartida:
         self.__tela.mostrar_partida(dados)
         
     def listar_partidas(self, partidas = None):
-        # Envia os dados do equipe que serão exibidos pela tela
+        # Encaminha todas as equipes da lista para a exibição da tela
         if partidas == None:
             partidas = self.__partidas
             
@@ -87,16 +90,14 @@ class ControladorPartida:
             i = i + 1
         
     def alterar_partida(self):
-        #Listar equipes para o usuario
+        # Acessa uma partida para editar
         self.listar_partidas()
 
-        #Coleta input de um codigo
         codigo = int(self.__tela.solicitar_input("Código da Partida"))
         partida = self.encontrar_partida_por_codigo(codigo)
         continua = codigo != 0 and partida != None
         
         if continua:           
-            #Tela de alteração de dados
             condicao_tela_equipe = True
             while condicao_tela_equipe:
                 self.mostrar_partida(partida)
@@ -161,28 +162,23 @@ class ControladorPartida:
                     condicao_tela_equipe = False
             
     def abrir_tela(self):
-        # Inicia o sistema
+        # Inicia o menu de partidas
         condicao = True
         while condicao:
             opcao_tela = self.__tela.tela_inicial()
 
-            # Listar Equipes
+            # Listar Partidas
             if  opcao_tela == 1:
-
-                #Listar Cursos para o usuario
                 self.listar_partidas()
 
-                #Aguarda input
                 self.__tela.aguardar_input()
 
-            # Incluir Equipe
+            # Incluir Partida
             if  opcao_tela == 2:
 
-                #Coleta input de um codigo
                 codigo = int(self.__tela.solicitar_input("Código da Partida"))
                 continua = codigo != 0
 
-                #Coleta input de um nome
                 if continua:
                     controlador_arbitro = self.__controlador_sistema.controlador_arbitro
 
@@ -195,23 +191,20 @@ class ControladorPartida:
                 if continua:
                     self.incluir_partida(codigo=codigo, arbitro=arbitro)
 
-            # Editar Curso
+            # Acessar Partida
             if  opcao_tela == 3:
                 self.alterar_partida()
 
-            # Exclui Curso
+            # Excluir Partida
             if  opcao_tela == 4:
-
-                #Listar Cursos para o usuario
                 self.listar_partidas()
 
-                #Coleta input de um codigo
                 codigo = int(self.__tela.solicitar_input("Código da Partida"))
                 continua = codigo != 0
 
                 if continua:
                     self.excluir_partida(codigo=codigo)
 
-            # Encerra a tela
+            # Retornar
             elif opcao_tela == 0:
                 condicao = False

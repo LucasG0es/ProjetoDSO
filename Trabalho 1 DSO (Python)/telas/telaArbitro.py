@@ -15,7 +15,7 @@ class TelaArbitro:
         
         opcao = int(input("Escolha uma opção: "))
         while opcao < 0 or opcao > 4:
-            opcao = input("Opção invalida, tente novamente ou aperte 0 para retornar: ")
+            opcao = int(input("Opção invalida, tente novamente ou aperte 0 para retornar: "))
 
         return opcao
     

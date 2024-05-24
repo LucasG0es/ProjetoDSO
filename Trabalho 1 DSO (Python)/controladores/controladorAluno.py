@@ -8,9 +8,11 @@ class ControladorAluno:
         self.__tela = TelaAluno()
         self.__controlador_sistema = controlador_sistema
 
+    # Funções
+
     def encontrar_aluno_por_matricula(self, matricula: int):
-        # While que passa pelos alunos, retorna o Aluno com a matrícula informada se existir,
-        # se não retorna None
+        # Recebe uma matrícula
+        # Caso exista um aluno com a matricula informada, retorna esse aluno
         i = 0
         alunos = self.__alunos
         while i < len(alunos):
@@ -22,16 +24,15 @@ class ControladorAluno:
         return None
 
     def incluir_aluno(self, nome, cpf, dia, mes, ano, curso, matricula, quantidade_gols):
-        # Verifica se o aluno já existe, e caso exista para o código
+        # Recebe os dados de um novo aluno caso a matricula já não esteja cadastrada, inclui esse aluno na lista de alunos
         if self.encontrar_aluno_por_matricula(matricula) != None:
             return
 
-        # Adiciona o aluno na lista de alunos
         aluno = Aluno(nome=nome, cpf=cpf, dia=dia, mes=mes, ano=ano, curso=curso, matricula=matricula, quantidade_gols=quantidade_gols)
         self.__alunos.append(aluno)
 
     def excluir_aluno(self, matricula: int):
-        # Verifica se o aluno já existe, e caso exista o remove da lista
+        # Recebe uma matricula, se a matricula estiver presente em um dos alunos da lista, remove ele da lista
         aluno = self.encontrar_aluno_por_matricula(matricula)
         if aluno != None:
             self.__alunos.remove(aluno)
@@ -39,6 +40,7 @@ class ControladorAluno:
         return None
     
     def mostrar_aluno(self, aluno: Aluno):
+        # Recebe um aluno, e encaminha os dados dele para a tela fazer a exibição
         if not isinstance(aluno, Aluno):
             return
         
@@ -55,7 +57,7 @@ class ControladorAluno:
         self.__tela.mostrar_aluno(dados)
 
     def listar_alunos(self):
-        # Envia os dados do aluno que serão exibidos pela tela
+        # Chama a função de mostrar aluno em todos os alunos da lista
         alunos = self.__alunos
         i = 0
         while i < len(alunos):
@@ -64,16 +66,16 @@ class ControladorAluno:
             i = i + 1
     
     def alterar_aluno(self):
-        #listar Cursos para o usuario
+        # Menu para escolher um aluno, e alterar suas informações editaveis
         self.listar_alunos()
 
-        #Coleta input de um codigo
+        # Recebe um número matrícula
         matricula = self.__tela.solicitar_input("Matrícula do Aluno")
         aluno = self.encontrar_aluno_por_matricula(matricula)
         continua = matricula != 0 and aluno != None
         
         if continua:
-            #Tela de alteração de dados
+            # Tela de alteração de dados
             condicao_tela_curso = True
             while condicao_tela_curso:
                 self.mostrar_aluno(aluno)
@@ -98,25 +100,21 @@ class ControladorAluno:
                     condicao_tela_curso = False
 
     def abrir_tela(self):
-        # Inicia o sistema
+        # Inicia o menu de cadastro de alunos
         condicao = True
         while condicao:
             opcao_tela = self.__tela.tela_inicial()
 
             # Listar Alunos
             if opcao_tela == 1:
-
-                # Listar Alunos para o usuário
                 self.listar_alunos()
 
-                # Coleta input de uma matricula
                 self.__tela.aguardar_input()
 
             # Inclui Aluno
             if opcao_tela == 2:
                 continua = True
-
-                # Coleta input de um nome
+                
                 if continua:
                     nome = self.__tela.solicitar_input("Nome do Aluno")
                     if nome == 0:
