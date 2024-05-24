@@ -7,10 +7,14 @@ class Arbitro(Pessoa):
         
         self.__numero_de_partidas = 0
     
+    #Getters
+
     @property
     def numero_de_partidas(self):
         return self.__numero_de_partidas
 
+    #Setters
+    
     @numero_de_partidas.setter
     def numero_de_partidas(self, numero_de_partidas):
         if isinstance(numero_de_partidas, int):

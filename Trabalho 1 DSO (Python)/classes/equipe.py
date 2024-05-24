@@ -18,6 +18,8 @@ class Equipe:
         if isinstance(curso, Curso):
             self.__curso = curso
 
+    #Getters
+
     @property
     def nome(self):
         return self.__nome
@@ -34,6 +36,8 @@ class Equipe:
     def alunos(self):
         return self.__alunos
     
+    #Setters
+
     @nome.setter
     def nome(self, nome):
         if isinstance(nome, str):
@@ -44,10 +48,14 @@ class Equipe:
         if isinstance(curso, Curso):
             self.__curso = curso
     
+    #Funções
+    
     def incluir_aluno(self, aluno: Aluno):
+        #Recebe um aluno e inclui na lista de alunos da equipe
         if isinstance(aluno, Aluno) and aluno not in self.__alunos:
             self.__alunos.append(aluno)
     
     def remover_aluno(self, aluno: Aluno):
+        #Recebe um aluno e o remove da equipe, caso ele esteja nela
         if aluno in self.__alunos:
             self.__alunos.remove(aluno)

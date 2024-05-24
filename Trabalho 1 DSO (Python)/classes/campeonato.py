@@ -14,6 +14,8 @@ class Campeonato:
         if isinstance(codigo, int):
             self.__codigo = codigo
     
+    #Getters
+
     @property
     def controlador_partida(self):
         return self.__controlador_partida
@@ -26,6 +28,8 @@ class Campeonato:
     def codigo(self):
         return self.__codigo
     
+    #Setters
+
     @nome.setter
     def nome(self, nome):
         if isinstance(nome, str):
@@ -39,16 +43,25 @@ class Campeonato:
     @property
     def equipes(self):
         return self.__equipes
+    
+    #Funções
 
     def incluir_equipe(self, equipe):
+        #Inclui equipe na lista de equipes do campeonato
+
         if isinstance(equipe, Equipe) and equipe not in self.__equipes:
             self.__equipes.append(equipe)
     
     def remover_equipe(self, equipe):
+        #Remove equipe da lista de equipes do campeonato
+
         if equipe in self.__equipes:
             self.__equipes.remove(equipe)
     
     def pontuacao_equipe(self, equipe):
+        #Recebe uma equipe no campeonato
+        #Retorna pontuação da equipe, 3 para vitórias, e 1 para empates
+
         partidas = self.__controlador_partida.partidas
         pontuacao = 0
         i = 0
@@ -67,6 +80,9 @@ class Campeonato:
         return pontuacao
 
     def saldo_gols_equipe(self, equipe):
+        #Recebe uma equipe no campeonato
+        #Retorna a quantidade de gols feitos pela equipe no campeonato
+
         partidas = self.__controlador_partida.partidas
         gols = 0
         i = 0
@@ -80,6 +96,9 @@ class Campeonato:
         return gols
 
     def gols_tomados_equipe(self, equipe):
+        #Recebe uma equipe no campeonato
+        #Retorna a quantidade de gols, feitos pelos adversarios da equipe, em partidas que a equipe participou
+
         partidas = self.__controlador_partida.partidas
         gols_tomados = 0
         i = 0
@@ -97,8 +116,8 @@ class Campeonato:
             i = i + 1
         return gols_tomados
 
-    @property
     def equipes_ordenadas(self):
+        #Retorna uma cópia da lista de equipes ordenada pela pontuação dos times
         i = 0
         equipes = []
         while i < len(self.__equipes):

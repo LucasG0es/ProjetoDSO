@@ -9,11 +9,14 @@ class ControladorCampeonato:
         self.__tela = TelaCampeonato()
         self.__controlador_sistema = controlador_sistema
     
+    # Getters
     @property
     def campeonatos(self):
         return self.__campeonatos
 
+    # Funções
     def encontrar_campeonato_por_codigo(self, codigo: int):
+        # Recebe um código, e retorna um campeonato com o codigo correspondente se existir
         i = 0
         campeonatos = self.__campeonatos
         while i < len(campeonatos):
@@ -25,6 +28,7 @@ class ControladorCampeonato:
         return None
 
     def incluir_campeonato(self, nome: str, codigo: int):
+        # Recebe dados para um novo campeonato e caso o código já não esteja em uso, adiciona ele na lista de campeonatos
         if not (isinstance(codigo, int) and isinstance(nome, str)) or self.encontrar_campeonato_por_codigo(codigo) != None:
             return
 
@@ -32,11 +36,13 @@ class ControladorCampeonato:
         self.__campeonatos.append(campeonato)
     
     def excluir_campeonato(self, codigo: int):
+        # Recebe um codigo de campeonato e caso exista um campeonato com o codigo correspondente, remove ele da lista
         campeonato = self.encontrar_campeonato_por_codigo(codigo)
         if campeonato != None:
             self.__campeonatos.remove(campeonato)
         
     def mostrar_campeonato(self, campeonato):
+        # Encaminha dados de um campeonato para a exibição da tela
         if not isinstance(campeonato, Campeonato):
             return
 
@@ -47,6 +53,7 @@ class ControladorCampeonato:
         self.__tela.mostrar_campeonato(dados)
     
     def mostrar_equipe_campeonato(self, equipe: Equipe, campeonato: Campeonato):
+        # Encaminha dados de uma equipe para exibição da tela
         if not (isinstance(equipe, Equipe) and isinstance(campeonato, Campeonato)):
             return
 
@@ -60,6 +67,7 @@ class ControladorCampeonato:
         self.__tela.mostrar_equipe_campeonato(dados)
     
     def listar_campeonatos(self):
+        # Chama a função de exibir campeonato, para cada campeonato na lista
         campeonatos = self.__campeonatos
         i = 0
         while i < len(campeonatos):
@@ -68,13 +76,15 @@ class ControladorCampeonato:
             i = i + 1
         
     def exibir_placar(self, campeonato: Campeonato):
-        equipes = campeonato.equipes_ordenadas
+        # Exibe as equipes no campeonato, ordenadas pela quantidade de pontos
+        equipes = campeonato.equipes_ordenadas()
         i = 0
         while i < len(equipes):
             self.mostrar_equipe_campeonato(campeonato=campeonato, equipe=equipes[i])
             i = i + 1
     
     def exibir_historico_partidas(self, campeonato: Campeonato):
+        # Exibe as partidas do campeonato, ordenadas da mais nova para a mais antiga
         controlador_partida = campeonato.controlador_partida
         partidas_nova = []
         i = 0
@@ -85,6 +95,7 @@ class ControladorCampeonato:
         controlador_partida.listar_partidas(partidas_nova.sort(reverse=True))
         
     def alterar_equipes_campeonato(self, campeonato: Campeonato):
+        # Inicia uma tela para editar as equipes do campeonato
         if not isinstance(campeonato, Campeonato):
             return
 
@@ -118,6 +129,7 @@ class ControladorCampeonato:
                 condicao_tela = False
     
     def alterar_campeonato(self):
+        # Inicia uma tela para acessar um campeonato
         self.listar_campeonatos()
 
         codigo = int(self.__tela.solicitar_input("Código do Campeonato"))
@@ -150,15 +162,18 @@ class ControladorCampeonato:
                     condicao_tela = False
     
     def abrir_tela(self):
+        # Inicia o menu de campeonatos
         condicao = True
         while condicao:
             opcao_tela = self.__tela.tela_inicial()
 
+            # Lista os campeonatos
             if opcao_tela == 1:
                 self.listar_campeonatos()
 
                 self.__tela.aguardar_input()
             
+            # Inclui um novo campeonato
             if opcao_tela == 2:
                 codigo = int(self.__tela.solicitar_input("Código do Campeonato"))
                 continua = codigo != 0
@@ -170,9 +185,11 @@ class ControladorCampeonato:
                 if continua:
                     self.incluir_campeonato(nome, codigo)
             
+            # Acessa um campeonato
             if opcao_tela == 3:
                 self.alterar_campeonato()
             
+            # Remove um campeonato
             if opcao_tela == 4:
                 codigo = int(self.__tela.solicitar_input("Código do Campeonato"))
                 continua = codigo != 0
@@ -180,5 +197,6 @@ class ControladorCampeonato:
                 if continua:
                     self.excluir_campeonato(codigo)
             
+            # Retorna
             if opcao_tela == 0:
                 condicao = False

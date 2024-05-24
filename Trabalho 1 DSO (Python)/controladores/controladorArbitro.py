@@ -8,9 +8,11 @@ class ControladorArbitro:
         self.__tela = TelaArbitro()
         self.__controlador_sistema = controlador_sistema
         
+    # Funções
+
     def encontrar_arbitro_por_cpf(self, cpf: int):
-        # While que passa pelos arbitros, retorna o Arbitro com o cpf informado se existir,
-        # se não retorna None
+        # Recebe um CPF
+        # Retorna um arbitro da lista com o CPF correspondente, ou retorna None
         i = 0
         arbitros = self.__arbitros
         while i < len(arbitros):
@@ -22,16 +24,17 @@ class ControladorArbitro:
         return None
     
     def incluir_arbitro(self, nome, cpf, dia, mes, ano):
-        # Verifica se o arbitro já existe, e caso exista para o código
+        # Recebe dados para um novo arbitro
+        # Caso o CPF já não esteja cadastrado, adiciona o arbitro na lista de arbitros
         if self.encontrar_arbitro_por_cpf(cpf) != None:
             return
         
-        # Adiciona o arbitro na lista de arbitros
         arbitro = Arbitro(nome=nome, cpf=cpf, dia=dia, mes=mes, ano=ano)
         self.__arbitros.append(arbitro)
 
     def excluir_arbitro(self, cpf: int):
-        # Verifica se o arbitro ja existe, e caso exista o remove da lista
+        # Recebe um CPF de um arbitro
+        # Caso exista um arbitro com CPF correspondente, remove ele da lista de arbitros
         arbitro = self.encontrar_arbitro_por_cpf(cpf)
         if arbitro != None:
             self.__arbitros.remove(arbitro)
@@ -39,6 +42,7 @@ class ControladorArbitro:
         return None
     
     def mostrar_arbitro(self, arbitro: Arbitro):
+        # Recebe um arbitro, e encaminha os dados dele para a tela exibir
         if not isinstance(arbitro, Arbitro):
             return
         
@@ -53,7 +57,7 @@ class ControladorArbitro:
         self.__tela.mostrar_arbitro(dados)
     
     def listar_arbitros(self):
-        # Envia os dados do aluno que serão exibidos pela tela
+        # Envia todos os alunos da lista de alunos para exibição
         arbitros = self.__arbitros
         i = 0
         while i < len(arbitros):
@@ -62,16 +66,14 @@ class ControladorArbitro:
             i = 1 + 1
 
     def alterar_arbitro(self):
-        #listar Cursos para o usuario
+        # Menu para escolher um arbitro, e alterar suas informações editaveis
         self.listar_arbitros()
 
-        #Coleta input de um codigo
         cpf = self.__tela.solicitar_input("CPF do Arbitro")
         arbitro = self.encontrar_arbitro_por_cpf(cpf)
         continua = cpf != 0 and arbitro != None
         
         if continua:
-            #Tela de alteração de dados
             condicao_tela_curso = True
             while condicao_tela_curso:
                 self.mostrar_arbitro(arbitro)
@@ -86,18 +88,15 @@ class ControladorArbitro:
                     condicao_tela_curso = False
     
     def abrir_tela(self):
-        # Inicia o sistema
+        # Inicia o menu de cadastro de arbitros
         condicao = True
         while condicao:
             opcao_tela = self.__tela.tela_inicial()
             
             # Listar Arbitros
             if opcao_tela == 1:
-                
-                # Listar os Arbitros para o usuário
                 self.listar_arbitros()
                 
-                # Coleta input de um cpf
                 self.__tela.aguardar_input()
             
             # Inclui Arbitro
@@ -110,13 +109,13 @@ class ControladorArbitro:
                     if nome == 0:
                         continua = False
                     
-                # Coleta input de um cpf
+                # Coleta input de um CPF
                 if continua:
                     cpf = int(self.__tela.solicitar_input("CPF do Árbitro"))
                     if cpf == 0:
                         continua = False
                 
-                # Coleta input de nascimento
+                # Coleta input da data de nascimento
                 if continua:
                     dia = int(self.__tela.solicitar_input("Dia de Nascimento do Árbitro"))
                     if dia == 0:
@@ -141,11 +140,9 @@ class ControladorArbitro:
 
             # Exclui Arbitro
             if opcao_tela == 4:
-                
-                # Listar Arbitros para o usuário
                 self.listar_arbitros()
                 
-                # Coleta input de um cpf
+                # Coleta input de um CPF
                 cpf = int(self.__tela.solicitar_input('CPF do Árbitro'))
                 
                 if cpf != 0:
