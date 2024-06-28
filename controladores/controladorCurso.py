@@ -1,10 +1,11 @@
 from classes.curso import Curso
 from telas.telaCurso import TelaCurso
+from persistencia.cursoDao import CursoDAO
 
 
 class ControladorCurso:
     def __init__(self, controlador_sistema):
-        self.__cursos = []
+        self.__dao_cursos = CursoDAO()
         self.__tela = TelaCurso()
         self.__controlador_sistema = controlador_sistema
 
@@ -14,7 +15,7 @@ class ControladorCurso:
         # Recebe um código
         # Retorna um curso com o código informado, se houver
         i = 0
-        cursos = self.__cursos
+        cursos = self.__dao_cursos.get_all()
         while i < len(cursos):
             curso = cursos[i]
             if curso.codigo == codigo:
@@ -29,22 +30,21 @@ class ControladorCurso:
             return
 
         curso = Curso(nome=nome, codigo=codigo)
-        self.__cursos.append(curso)
+        self.__dao_cursos.add(curso)
 
     
     def excluir_curso(self, codigo: int):
         # Recebe um código
         # Remove um curso com o código informado, se ele existir
-        cursos = self.__cursos
         curso = self.encontrar_curso_por_codigo(codigo)
         if curso != None:
-            cursos.remove(curso)
+            self.__dao_cursos.remove(codigo)
             return curso
         return None
 
     def listar_cursos(self):
         # Coleta os dados de cada curso, e encaminha para a tela exibir
-        cursos = self.__cursos
+        cursos = self.__dao_cursos.get_all()
         i = 0
         while i < len(cursos):
             curso = cursos[i]
