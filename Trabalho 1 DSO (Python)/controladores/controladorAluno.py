@@ -70,7 +70,7 @@ class ControladorAluno:
         self.listar_alunos()
 
         # Recebe um número matrícula
-        matricula = self.__tela.solicitar_input("Matrícula do Aluno")
+        matricula = int(self.__tela.solicitar_input("Matrícula do Aluno"))
         aluno = self.encontrar_aluno_por_matricula(matricula)
         continua = matricula != 0 and aluno != None
         

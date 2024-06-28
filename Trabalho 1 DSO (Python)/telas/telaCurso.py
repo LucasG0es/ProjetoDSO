@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 
 
 class TelaCurso:
@@ -35,17 +36,28 @@ class TelaCurso:
     def aguardar_input(self):
         input("Aperte enter para continuar ")
     
-    def informar_codigo(self):
-        opcao = int(input("Código do Curso: "))
-        while isinstance(opcao, str) and 0 == 1:
-            opcao = input("O codigo do curso deve ser um número inteiro: ")
+    def criar_curso(self):
+        
+        button_size = (25,1)
+        titulo = "Adicionar um Curso"
 
-        return int(opcao)
+        layout = [
+            [sg.T(titulo, font='_ 14', justification='c', expand_x=True)],
+            [sg.Text(text="", size = (0,2))],
+            [sg.Text(text="Nome", size=(5,1)), sg.Input(key="Nome", size=(30,1)), sg.Text(text="", size=(5,1))],
+            [sg.Text(text="Codigo", size=(5,1)), sg.Input(key="Codigo", size=(30,1)), sg.Text(text="", size=(5,1))],
+            [sg.Text(text="", size = (0,2))],
+            [sg.Submit(),sg.Cancel()]
+        ]
 
-    def informar_nome(self):
-        opcao = input("Nome do Curso: ")
+        self.__window = sg.Window(titulo, element_justification="c", size=(600,600)).Layout(layout)
 
-        return opcao
+        button, values = self.__window.Read()
+        self.__window.close()
+        
+        if button == "Cancel":
+            return 0
+        return values
     
     def mostrar_curso(self, dados: dict):
         nome = dados["nome"]

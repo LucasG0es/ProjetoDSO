@@ -101,16 +101,8 @@ class ControladorCurso:
 
             # Inclui um novo curso
             if  opcao_tela == 2:
-
-                codigo = self.__tela.informar_codigo()
-                continua = codigo != 0
-
-                if continua:
-                    nome = self.__tela.informar_nome()
-                    continua = nome != 0
-
-                if continua:
-                    self.incluir_curso(nome=nome, codigo=codigo)
+                dados = self.__tela.criar_curso()
+                self.incluir_curso(nome=dados["Nome"], codigo=int(dados["Codigo"]))
 
             # Editar Curso
             if  opcao_tela == 3:

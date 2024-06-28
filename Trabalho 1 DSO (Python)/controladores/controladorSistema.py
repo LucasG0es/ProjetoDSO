@@ -19,25 +19,29 @@ class ControladorSistema:
         # Inicia o sistema
         condicao = True
         while condicao:
-            opcao_tela = self.__tela.tela_inicial()
+            try:
+                opcao_tela = self.__tela.tela_inicial()
 
-            # Cadastro de Cursos
-            if  opcao_tela == 1:
-                self.controlador_curso.abrir_tela()
+                # Cadastro de Cursos
+                if  opcao_tela == 1:
+                    self.controlador_curso.abrir_tela()
 
-            if opcao_tela == 2:
-                self.controlador_aluno.abrir_tela()
-            
-            # Cadastro de Equipes
-            if  opcao_tela == 3:
-                self.controlador_equipe.abrir_tela()
-            
-            if  opcao_tela == 4:
-                self.controlador_arbitro.abrir_tela()
-            
-            if  opcao_tela == 5:
-                self.controlador_campeonato.abrir_tela()
+                if opcao_tela == 2:
+                    self.controlador_aluno.abrir_tela()
+                
+                # Cadastro de Equipes
+                if  opcao_tela == 3:
+                    self.controlador_equipe.abrir_tela()
+                
+                if  opcao_tela == 4:
+                    self.controlador_arbitro.abrir_tela()
+                
+                if  opcao_tela == 5:
+                    self.controlador_campeonato.abrir_tela()
 
-            # Encerra a tela
-            elif opcao_tela == 0:
-                condicao = False
+                # Encerra a tela
+                elif opcao_tela == 0:
+                    condicao = False
+            except:
+                print(f"\nOcorreu um erro inesperado, você foi direcionado para a tela principal.",
+                      f"\nCaso o problema persista, contate um administrador.")

@@ -1,6 +1,6 @@
+from telas.tela import Tela
 
-
-class TelaAluno:
+class TelaAluno(Tela):
 
     def tela_inicial(self):
         print()
@@ -12,12 +12,11 @@ class TelaAluno:
         print("4 - Excluir Aluno")
         print("0 - Retornar")
         print()
-        
-        opcao = int(input("Escolha uma opção: "))
-        while opcao < 0 or opcao > 4:
-            opcao = int(input("Opção invalida, tente novamente ou aperte 0 para retornar: "))
 
-        return opcao
+        return super().solicitar_input(
+            mensagem="Escolha uma opção",
+            tipo=int,
+            valores_validos=[0,1,2,3,4])
 
     def tela_aluno(self):
         print()
@@ -26,20 +25,11 @@ class TelaAluno:
         print("2 - Alterar Curso")
         print("0 - Retornar")
         print()
-        
-        opcao = int(input("Escolha uma opção: "))
-        while opcao < 0 or opcao > 2:
-            opcao = input("Opção invalida, tente novamente ou aperte 0 para retornar: ")
 
-        return opcao
-    
-    def aguardar_input(self):
-        input("Aperte enter para continuar ")
-
-    def solicitar_input(self, nome_informacao):
-        opcao = input(nome_informacao+": ")
-
-        return opcao
+        return super().solicitar_input(
+            mensagem="Escolha uma opção",
+            tipo=int,
+            valores_validos=[0,1,2])
     
     def mostrar_aluno(self, dados: dict):
         nome = dados["nome"]
