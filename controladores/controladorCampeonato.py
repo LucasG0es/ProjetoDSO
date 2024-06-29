@@ -1,11 +1,12 @@
 from telas.telaCampeonato import TelaCampeonato
 from classes.campeonato import Campeonato
 from classes.equipe import Equipe
+from persistencia.campeonatoDao import CampeonatoDAO
 
 
 class ControladorCampeonato:
     def __init__(self, controlador_sistema):
-        self.__campeonatos = []
+        self.__dao_campeonatos = CampeonatoDAO()
         self.__tela = TelaCampeonato()
         self.__controlador_sistema = controlador_sistema
     
@@ -18,7 +19,7 @@ class ControladorCampeonato:
     def encontrar_campeonato_por_codigo(self, codigo: int):
         # Recebe um código, e retorna um campeonato com o codigo correspondente se existir
         i = 0
-        campeonatos = self.__campeonatos
+        campeonatos = self.__dao_campeonatos.get_all
         while i < len(campeonatos):
             campeonato = campeonatos[i]
             if campeonato.codigo == codigo:
@@ -33,13 +34,13 @@ class ControladorCampeonato:
             return
 
         campeonato = Campeonato(nome=nome, codigo=codigo, controlador_sistema=self.__controlador_sistema)
-        self.__campeonatos.append(campeonato)
+        self.__dao_campeonatos.add(campeonato)
     
     def excluir_campeonato(self, codigo: int):
         # Recebe um codigo de campeonato e caso exista um campeonato com o codigo correspondente, remove ele da lista
         campeonato = self.encontrar_campeonato_por_codigo(codigo)
         if campeonato != None:
-            self.__campeonatos.remove(campeonato)
+            self.__dao_campeonatos.remove(campeonato)
         
     def mostrar_campeonato(self, campeonato):
         # Encaminha dados de um campeonato para a exibição da tela
@@ -68,7 +69,7 @@ class ControladorCampeonato:
     
     def listar_campeonatos(self):
         # Chama a função de exibir campeonato, para cada campeonato na lista
-        campeonatos = self.__campeonatos
+        campeonatos = self.__dao_campeonatos.get_all()
         i = 0
         while i < len(campeonatos):
             self.mostrar_campeonato(campeonatos[i])

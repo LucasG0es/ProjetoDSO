@@ -1,11 +1,12 @@
 from classes.equipe import Equipe
 from classes.curso import Curso
 from telas.telaEquipe import TelaEquipe
+from persistencia.equipeDao import EquipeDAO
 
 
 class ControladorEquipe:
     def __init__(self, controlador_sistema):
-        self.__equipes = []
+        self.__dao_equipes = EquipeDAO()
         self.__tela = TelaEquipe()
         self.__controlador_sistema = controlador_sistema
     
@@ -13,7 +14,7 @@ class ControladorEquipe:
         # Recebe um codigo
         # Retorna um curso com o codigo informado, se existir
         i = 0
-        equipes = self.__equipes
+        equipes = self.__dao_equipes.get_all()
         while i < len(equipes):
             equipe = equipes[i]
             if equipe.codigo == codigo:
@@ -30,18 +31,18 @@ class ControladorEquipe:
             return
 
         equipe = Equipe(nome=nome, curso=curso, codigo=codigo)
-        self.__equipes.append(equipe)
+        self.__dao_equipes.add(equipe)
     
     def excluir_equipe(self,codigo):
         # Recebe um codigo, e remove uma equipe com esse codigo, se existir
         equipe = self.encontrar_equipe_por_codigo(codigo)
         if equipe != None:
-            self.__equipes.remove(equipe)
+            self.__dao_equipes.remove(equipe)
         
     def listar_equipes(self, equipes=None):
         # Encaminha os codigos de cada equipe para a exibição da tela
         if equipes == None:
-            equipes = self.__equipes
+            equipes = self.__dao_equipes.get_all()
         i = 0
         while i < len(equipes):
             equipe = equipes[i]
