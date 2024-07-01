@@ -1,10 +1,11 @@
 from classes.arbitro import Arbitro
 from telas.telaArbitro import TelaArbitro
+from persistencia.arbitroDao import ArbitroDAO
 
 
 class ControladorArbitro:
     def __init__(self, controlador_sistema):
-        self.__arbitros = []
+        self.__dao_cursos = ArbitroDAO()
         self.__tela = TelaArbitro()
         self.__controlador_sistema = controlador_sistema
         
@@ -14,7 +15,7 @@ class ControladorArbitro:
         # Recebe um CPF
         # Retorna um arbitro da lista com o CPF correspondente, ou retorna None
         i = 0
-        arbitros = self.__arbitros
+        arbitros = self.__dao_cursos.get_all
         while i < len(arbitros):
             arbitro = arbitros[i]
             if arbitro.cpf == cpf:
@@ -30,14 +31,14 @@ class ControladorArbitro:
             return
         
         arbitro = Arbitro(nome=nome, cpf=cpf, dia=dia, mes=mes, ano=ano)
-        self.__arbitros.append(arbitro)
+        self.__dao_cursos.get_all(arbitro)
 
     def excluir_arbitro(self, cpf: int):
         # Recebe um CPF de um arbitro
         # Caso exista um arbitro com CPF correspondente, remove ele da lista de arbitros
         arbitro = self.encontrar_arbitro_por_cpf(cpf)
         if arbitro != None:
-            self.__arbitros.remove(arbitro)
+            self.__dao_cursos.remove(arbitro)
             return arbitro
         return None
     
@@ -58,7 +59,7 @@ class ControladorArbitro:
     
     def listar_arbitros(self):
         # Envia todos os alunos da lista de alunos para exibição
-        arbitros = self.__arbitros
+        arbitros = self.__dao_cursos.get_all()
         i = 0
         while i < len(arbitros):
             self.mostrar_arbitro(arbitros[i])

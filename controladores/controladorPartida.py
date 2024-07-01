@@ -2,24 +2,25 @@ from classes.partida import Partida
 from classes.equipe import Equipe
 from classes.arbitro import Arbitro
 from telas.telaPartida import TelaPartida
+from persistencia.partidaDao import PartidaDAO
 
 
 class ControladorPartida:
     def __init__(self, controlador_sistema, campeonato):
-        self.__partidas = []
+        self.__dao_partidas = PartidaDAO()
         self.__tela = TelaPartida()
         self.__controlador_sistema = controlador_sistema
         self.__campeonato = campeonato
 
     @property
     def partidas(self):
-        return self.__partidas
+        return self.__dao_cursos.get_all()
     
     def encontrar_partida_por_codigo(self, codigo: int):
         # Recebe um codigo
         # Retorna uma partida com o codigo informado se existir
         i = 0
-        partidas = self.__partidas
+        partidas = self.__dao_partidas.get_all()
         while i < len(partidas):
             partida = partidas[i]
             if partida.codigo == codigo:
@@ -35,14 +36,14 @@ class ControladorPartida:
             return
 
         partida = Partida(codigo=codigo, arbitro=arbitro)
-        self.__partidas.append(partida)
+        self.__dao_partidas.add(partida)
     
     def excluir_partida(self,codigo):
         # Recebe um codigo
         # Remove uma partida da lista com o codigo se essa partida existir
         partida = self.encontrar_partida_por_codigo(codigo)
         if partida != None:
-            self.__partidas.remove(partida)
+            self.__dao_partidas.remove(partida)
 
     def mostrar_partida(self,partida):
         # envia os dados de uma partida para a tela exibir
@@ -81,7 +82,7 @@ class ControladorPartida:
     def listar_partidas(self, partidas = None):
         # Encaminha todas as equipes da lista para a exibição da tela
         if partidas == None:
-            partidas = self.__partidas
+            partidas = self.__dao_partidas.get_all()
             
         i = 0
         while i < len(partidas):
