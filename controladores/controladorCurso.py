@@ -31,34 +31,6 @@ class ControladorCurso:
 
         curso = Curso(nome=nome, codigo=codigo)
         self.__dao_cursos.add(curso)
-
-    
-    def excluir_curso(self, codigo: int):
-        # Recebe um código
-        # Remove um curso com o código informado, se ele existir
-        curso = self.encontrar_curso_por_codigo(codigo)
-        if curso != None:
-            self.__dao_cursos.remove(codigo)
-            return curso
-        return None
-
-    def listar_cursos(self):
-        # Coleta os dados de cada curso, e encaminha para a tela exibir
-        cursos = self.__dao_cursos.get_all()
-        i = 0
-        while i < len(cursos):
-            curso = cursos[i]
-
-            nome = curso.nome
-            codigo = curso.codigo
-
-            dados = {}
-            dados["nome"]=nome
-            dados["codigo"]=codigo
-
-            self.__tela.mostrar_curso(dados)
-
-            i = i + 1
     
     def alterar_curso(self):
         # Acessa um curso para editar
@@ -86,6 +58,37 @@ class ControladorCurso:
                 
                 elif opcao == 0:
                     condicao_tela_curso = False
+
+    
+    def excluir_curso(self, codigo: int):
+        # Recebe um código
+        # Remove um curso com o código informado, se ele existir
+        curso = self.encontrar_curso_por_codigo(codigo)
+        if curso != None:
+            self.__dao_cursos.remove(codigo)
+            return curso
+        return None
+
+    def listar_cursos(self):
+        # Coleta os dados de cada curso, e encaminha para a tela exibir
+        cursos = self.__dao_cursos.get_all()
+        dados_cursos = []
+        i = 0
+        while i < len(cursos):
+            curso = cursos[i]
+
+            nome = curso.nome
+            codigo = curso.codigo
+
+            dados = {}
+            dados["nome"]=nome
+            dados["codigo"]=codigo
+
+            dados_cursos.append(dados)
+
+            i = i + 1
+        
+        self.__tela.mostrar_curso(dados_cursos)
     
     def abrir_tela(self):
         # Inicia o menu de cursos
@@ -102,7 +105,8 @@ class ControladorCurso:
             # Inclui um novo curso
             if  opcao_tela == 2:
                 dados = self.__tela.criar_curso()
-                self.incluir_curso(nome=dados["Nome"], codigo=int(dados["Codigo"]))
+                if dados != None:
+                    self.incluir_curso(nome=dados["Nome"], codigo=int(dados["Codigo"]))
 
             # Editar Curso
             if  opcao_tela == 3:
