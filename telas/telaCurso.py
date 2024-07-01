@@ -1,5 +1,10 @@
 import PySimpleGUI as sg
 
+class NomeGrande(Exception):
+    pass
+
+class NomePequeno(Exception):
+    pass
 
 class TelaCurso:
 
@@ -33,7 +38,11 @@ class TelaCurso:
         
         if button == None:
             return [0]
-        return [button, data[values["Tabela"][0]][1]]
+        
+        if len(values["Tabela"]) > 0:
+            return [button, data[values["Tabela"][0]][1]]
+        else:
+            return [button]
 
     def tela_curso(self):
         print()
@@ -48,12 +57,11 @@ class TelaCurso:
 
         return opcao
     
-    def aguardar_input(self):
-        input("Aperte enter para continuar ")
-    
     def formulario_curso(self, nome="", codigo=""):
+        
+        edit_form = codigo != ""
 
-        texto_erro = [sg.Text(text="", size = (0,2))]
+        texto_erro = ""
 
         while True:
             button_size = (25,1)
@@ -63,8 +71,8 @@ class TelaCurso:
                 [sg.T(titulo, font='_ 14', justification='c', expand_x=True)],
                 [sg.Text(text="", size = (0,2))],
                 [sg.Text(text="Nome", size=(5,1)), sg.Input(key="Nome", default_text=nome, size=(30,1)), sg.Text(text="", size=(5,1))],
-                [sg.Text(text="Codigo", size=(5,1)), sg.Input(key="Codigo", default_text=codigo, size=(30,1)), sg.Text(text="", size=(5,1))],
-                texto_erro,
+                [sg.Text(text="Codigo", size=(5,1)), sg.Input(key="Codigo", disabled=edit_form, disabled_readonly_background_color="darkgrey", default_text=codigo, size=(30,1)), sg.Text(text="", size=(5,1))],
+                [sg.Text(text="", size=(5,1)),sg.Text(text=texto_erro, size=(30,1), justification="center", text_color="Red"), sg.Text(text="", size=(5,1))],
                 [sg.Submit(),sg.Cancel()]
             ]
 
@@ -73,21 +81,28 @@ class TelaCurso:
             button, values = self.__window.Read()
             self.__window.close()
             
-            if button == "Cancel":
+            # Retornar
+            if button == "Cancel" or button == None:
                 return
+            
+            # Retorno de valores
             try:
+                if len(values["Nome"]) > 20:
+                    raise NomeGrande()
+                
+                if len(values["Nome"]) < 5:
+                    raise NomePequeno()
+                
                 values["Codigo"] = int(values["Codigo"])
                 return values
-            except:
+            
+            except NomeGrande:
+                texto_erro = "Nome deve ter no máximo 20 carácteres"
+            except NomePequeno:
+                texto_erro = "Nome deve ter no mínimo 5 carácteres"
+            except ValueError:
+                texto_erro = "Código deve ser númerico"
+            
+            finally:
                 nome = values["Nome"]
                 codigo = values["Codigo"]
-                texto_erro = [sg.Text(text="", size=(5,1)),sg.Text(text="Código deve ser númerico", size=(30,1), justification="center", text_color="Red"), sg.Text(text="", size=(5,1))]
-    
-    def mostrar_curso(self, dados: dict):
-        nome = dados["nome"]
-        codigo = dados["codigo"]
-
-        print()
-        print(f"Nome: {nome}")
-        print(f"Codigo: {codigo}")
-        print()
