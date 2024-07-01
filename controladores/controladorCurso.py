@@ -50,40 +50,33 @@ class ControladorCurso:
         curso = self.encontrar_curso_por_codigo(codigo)
         if curso != None:
             self.__dao_cursos.remove(codigo)
-            return curso
         return None
     
     def abrir_tela(self):
         # Inicia o menu de cursos
         condicao = True
         while condicao:
-            opcao_tela = self.__tela.tela_inicial(self.lista_cursos())
-
-            # Lista os Cursos
-            if  opcao_tela == 1:
-                self.listar_cursos()
-
-                self.__tela.aguardar_input()
+            tela = self.__tela.tela_inicial(self.lista_cursos())
+            opcao_tela = tela[0]
 
             # Inclui um novo curso
             if  opcao_tela == 2:
-                dados = self.__tela.criar_curso()
+                dados = self.__tela.formulario_curso()
                 if dados != None:
                     self.incluir_curso(nome=dados["Nome"], codigo=int(dados["Codigo"]))
 
             # Editar Curso
             if  opcao_tela == 3:
-                self.alterar_curso()
+                curso = self.encontrar_curso_por_codigo(tela[1])
+                dados = self.__tela.formulario_curso(nome=curso.nome, codigo=curso.codigo)
+                if dados != None:
+                    curso.nome = dados["Nome"]
+                    self.__dao_cursos.add(self.encontrar_curso_por_codigo(tela[1]))
+                
 
             # Excluir Curso
             if  opcao_tela == 4:
-                self.listar_cursos()
-
-                codigo = self.__tela.informar_codigo()
-                continua = codigo != 0
-
-                if continua:
-                    self.excluir_curso(codigo=codigo)
+                self.excluir_curso(tela[1])
 
             # Retorna
             elif opcao_tela == 0:

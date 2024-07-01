@@ -36,8 +36,7 @@ class ControladorAluno:
         # Recebe uma matricula, se a matricula estiver presente em um dos alunos da lista, remove ele da lista
         aluno = self.encontrar_aluno_por_matricula(matricula)
         if aluno != None:
-            self.__dao_alunos.remove(aluno)
-            return aluno
+            self.__dao_alunos.remove(matricula)
         return None
     
     def mostrar_aluno(self, aluno: Aluno):

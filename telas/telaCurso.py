@@ -32,8 +32,8 @@ class TelaCurso:
         self.__window.close()
         
         if button == None:
-            return 0
-        return button
+            return [0]
+        return [button, data[values["Tabela"][0]][1]]
 
     def tela_curso(self):
         print()
@@ -51,11 +51,8 @@ class TelaCurso:
     def aguardar_input(self):
         input("Aperte enter para continuar ")
     
-    def criar_curso(self):
+    def formulario_curso(self, nome="", codigo=""):
 
-        #Valores padrões
-        nome = ""
-        codigo = ""
         texto_erro = [sg.Text(text="", size = (0,2))]
 
         while True:
