@@ -43,19 +43,6 @@ class TelaCurso:
             return [button, data[values["Tabela"][0]][1]]
         else:
             return [button]
-
-    def tela_curso(self):
-        print()
-        print("Escolha a alteração desejada")
-        print("1 - Alterar Nome")
-        print("0 - Retornar")
-        print()
-        
-        opcao = int(input("Escolha uma opção: "))
-        while opcao < 0 or opcao > 1:
-            opcao = input("Opção invalida, tente novamente ou aperte 0 para retornar: ")
-
-        return opcao
     
     def formulario_curso(self, nome="", codigo=""):
         
@@ -65,7 +52,9 @@ class TelaCurso:
 
         while True:
             button_size = (25,1)
-            titulo = "Adicionar um Curso"
+            titulo = "Adicionar Curso"
+            if edit_form:
+                titulo = "Editar Curso"
 
             layout = [
                 [sg.T(titulo, font='_ 14', justification='c', expand_x=True)],

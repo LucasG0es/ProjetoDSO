@@ -55,106 +55,34 @@ class ControladorAluno:
         dados['gols'] = aluno.quantidade_gols
 
         self.__tela.mostrar_aluno(dados)
-
-    def listar_alunos(self):
-        # Chama a função de mostrar aluno em todos os alunos da lista
+    
+    def lista_alunos(self):
+        retorno = []
         alunos = self.__dao_alunos.get_all()
         i = 0
         while i < len(alunos):
-            self.mostrar_aluno(alunos[i])
+            aluno = alunos[i]
+            nascimento = aluno.data_de_nascimento
+            string_nascimento = str(nascimento["dia"]) + "/" + str(nascimento["mes"]) + "/" + str(nascimento["ano"])
+            atual = [aluno.nome, aluno.cpf, aluno.curso.nome, string_nascimento, aluno.matricula, aluno.quantidade_gols]
+            retorno.append(atual)
 
             i = i + 1
-    
-    def alterar_aluno(self):
-        # Menu para escolher um aluno, e alterar suas informações editaveis
-        self.listar_alunos()
-
-        # Recebe um número matrícula
-        matricula = int(self.__tela.solicitar_input("Matrícula do Aluno"))
-        aluno = self.encontrar_aluno_por_matricula(matricula)
-        continua = matricula != 0 and aluno != None
-        
-        if continua:
-            # Tela de alteração de dados
-            condicao_tela_curso = True
-            while condicao_tela_curso:
-                self.mostrar_aluno(aluno)
-                opcao = int(self.__tela.tela_aluno())
-
-                if opcao == 1:
-                    nome = self.__tela.solicitar_input("Nome do Aluno")
-                    if nome != 0:
-                        aluno.nome = nome
-
-                if opcao == 2:
-                    controlador_curso = self.__controlador_sistema.controlador_curso
-                    
-                    controlador_curso.listar_cursos()
-                    codigo = int(self.__tela.solicitar_input("Código do Curso do Aluno"))
-                    curso = controlador_curso.encontrar_curso_por_codigo(codigo)
-
-                    if codigo != 0:
-                        aluno.curso = curso
-
-                elif opcao == 0:
-                    condicao_tela_curso = False
+        return retorno
 
     def abrir_tela(self):
         # Inicia o menu de cadastro de alunos
         condicao = True
         while condicao:
-            opcao_tela = self.__tela.tela_inicial()
-
-            # Listar Alunos
-            if opcao_tela == 1:
-                self.listar_alunos()
-
-                self.__tela.aguardar_input()
+            tela = self.__tela.tela_inicial(self.lista_alunos())
+            opcao_tela = tela[0]
 
             # Inclui Aluno
             if opcao_tela == 2:
-                continua = True
+                lista_cursos = self.__controlador_sistema.controlador_curso.lista_cursos()
+                dados = self.__tela.formulario_aluno(lista_cursos=lista_cursos)
                 
-                if continua:
-                    nome = self.__tela.solicitar_input("Nome do Aluno")
-                    if nome == 0:
-                        continua = False
-                
-                if continua:
-                    cpf = int(self.__tela.solicitar_input("CPF do Aluno"))
-                    if cpf == 0:
-                        continua = False
-                
-                if continua:
-                    dia = int(self.__tela.solicitar_input("Dia de Nascimento do Aluno"))
-                    if dia == 0:
-                        continua = False
-                
-                if continua:
-                    mes = int(self.__tela.solicitar_input("Mês de Nascimento do Aluno"))
-                    if mes == 0:
-                        continua = False
-                
-                if continua:
-                    ano = int(self.__tela.solicitar_input("Ano de Nascimento do Aluno"))
-                    if ano == 0:
-                        continua = False
-                
-                if continua:
-                    matricula = int(self.__tela.solicitar_input("Matrícula do Aluno"))
-                    if matricula == 0:
-                        continua = False
-                
-                if continua:
-                    controlador_curso = self.__controlador_sistema.controlador_curso
-                    
-                    controlador_curso.listar_cursos()
-                    codigo = int(self.__tela.solicitar_input("Código do Curso do Aluno"))
-                    curso = controlador_curso.encontrar_curso_por_codigo(codigo)
-                    if codigo == 0 or curso == None:
-                        continua = False
-                
-                if continua:
+                if dados != None:
                     self.incluir_aluno(nome, cpf, dia, mes, ano, curso, matricula, 0)
 
             # Altera Aluno
