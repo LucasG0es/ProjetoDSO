@@ -1,11 +1,10 @@
 from classes.aluno import Aluno
 from telas.telaAluno import TelaAluno
-from persistencia.alunoDao import AlunoDAO
 
 
 class ControladorAluno:
     def __init__(self, controlador_sistema):
-        self.__dao_alunos = AlunoDAO()
+        self.__alunos = []
         self.__tela = TelaAluno()
         self.__controlador_sistema = controlador_sistema
 
@@ -15,7 +14,7 @@ class ControladorAluno:
         # Recebe uma matrícula
         # Caso exista um aluno com a matricula informada, retorna esse aluno
         i = 0
-        alunos = self.__dao_alunos.get_all()
+        alunos = self.__alunos
         while i < len(alunos):
             aluno = alunos[i]
             if aluno.matricula == matricula:
@@ -30,13 +29,13 @@ class ControladorAluno:
             return
 
         aluno = Aluno(nome=nome, cpf=cpf, dia=dia, mes=mes, ano=ano, curso=curso, matricula=matricula, quantidade_gols=quantidade_gols)
-        self.__dao_alunos.add(aluno)
+        self.__alunos.append(aluno)
 
     def excluir_aluno(self, matricula: int):
         # Recebe uma matricula, se a matricula estiver presente em um dos alunos da lista, remove ele da lista
         aluno = self.encontrar_aluno_por_matricula(matricula)
         if aluno != None:
-            self.__dao_alunos.remove(aluno)
+            self.__alunos.remove(aluno)
             return aluno
         return None
     
@@ -59,7 +58,7 @@ class ControladorAluno:
 
     def listar_alunos(self):
         # Chama a função de mostrar aluno em todos os alunos da lista
-        alunos = self.__dao_alunos.get_all()
+        alunos = self.__alunos
         i = 0
         while i < len(alunos):
             self.mostrar_aluno(alunos[i])
