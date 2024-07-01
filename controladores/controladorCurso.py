@@ -23,6 +23,18 @@ class ControladorCurso:
 
             i = i + 1
         return None
+    
+    def lista_cursos(self):
+        retorno = []
+        cursos = self.__dao_cursos.get_all()
+        i = 0
+        while i < len(cursos):
+            curso = cursos[i]
+            atual = [curso.nome, curso.codigo]
+            retorno.append(atual)
+
+            i = i + 1
+        return retorno
 
     def incluir_curso(self, nome: str, codigo: int):
         # Recebe dados para criar um novo curso, e caso o código não esteja em uso, inclui o curso na lista
@@ -31,35 +43,7 @@ class ControladorCurso:
 
         curso = Curso(nome=nome, codigo=codigo)
         self.__dao_cursos.add(curso)
-    
-    def alterar_curso(self):
-        # Acessa um curso para editar
-        self.listar_cursos()
 
-        codigo = self.__tela.informar_codigo()
-        curso = self.encontrar_curso_por_codigo(codigo)
-        continua = codigo != 0 and curso != None
-        
-        if continua:
-            condicao_tela_curso = True
-            while condicao_tela_curso:
-                dados = {}
-                dados["nome"] = curso.nome
-                dados["codigo"] = curso.codigo
-
-                self.__tela.mostrar_curso(dados)
-                opcao = int(self.__tela.tela_curso())
-
-                # Alterar nome
-                if opcao == 1:
-                    nome = self.__tela.informar_nome()
-                    if nome != 0:
-                        curso.nome = nome
-                
-                elif opcao == 0:
-                    condicao_tela_curso = False
-
-    
     def excluir_curso(self, codigo: int):
         # Recebe um código
         # Remove um curso com o código informado, se ele existir
@@ -68,33 +52,12 @@ class ControladorCurso:
             self.__dao_cursos.remove(codigo)
             return curso
         return None
-
-    def listar_cursos(self):
-        # Coleta os dados de cada curso, e encaminha para a tela exibir
-        cursos = self.__dao_cursos.get_all()
-        dados_cursos = []
-        i = 0
-        while i < len(cursos):
-            curso = cursos[i]
-
-            nome = curso.nome
-            codigo = curso.codigo
-
-            dados = {}
-            dados["nome"]=nome
-            dados["codigo"]=codigo
-
-            dados_cursos.append(dados)
-
-            i = i + 1
-        
-        self.__tela.mostrar_curso(dados_cursos)
     
     def abrir_tela(self):
         # Inicia o menu de cursos
         condicao = True
         while condicao:
-            opcao_tela = self.__tela.tela_inicial()
+            opcao_tela = self.__tela.tela_inicial(self.lista_cursos())
 
             # Lista os Cursos
             if  opcao_tela == 1:

@@ -6,11 +6,10 @@ class TelaCurso:
     def __init__(self):
         self.__window = None
     
-    def tela_inicial(self):
+    def tela_inicial(self, data):
 
         button_size = (25,1)
-        data = [["Agua", "Mamão"]]
-        headings = ["Liquido", "Fruta"]
+        headings = ["Curso", "Codigo"]
 
         layout = [
             [sg.T('Menu de Cursos', font='_ 14', justification='c', expand_x=True)],
@@ -20,13 +19,10 @@ class TelaCurso:
                     display_row_numbers=False,
                     justification='center',
                     num_rows=20,
-                    alternating_row_color='lightgrey',
-                    key="Tabela",
-                    tooltip='This is a table')],
-            [sg.Button(button_text="Listar", key=1, size=button_size)],
+                    key="Tabela")],
+            [sg.Button(button_text="Editar Curso", key=3, size=button_size), sg.Button(button_text="Excluir Curso", key=4, size=button_size)],
+            [sg.Text(text="", size = (0,2))],
             [sg.Button(button_text="Adicionar Curso", key=2, size=button_size)],
-            [sg.Button(button_text="Editar Curso", key=3, size=button_size)],
-            [sg.Button(button_text="Excluir Curso", key=4, size=button_size)],
             [sg.Button(button_text="Retornar", key=0, size=button_size)]
         ]
 
