@@ -15,7 +15,7 @@ class ControladorArbitro:
         # Recebe um CPF
         # Retorna um arbitro da lista com o CPF correspondente, ou retorna None
         i = 0
-        arbitros = self.__dao_cursos.get_all
+        arbitros = self.__dao_cursos.get_all()
         while i < len(arbitros):
             arbitro = arbitros[i]
             if arbitro.cpf == cpf:

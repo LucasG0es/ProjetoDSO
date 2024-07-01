@@ -1,6 +1,6 @@
 from classes.equipe import Equipe
+from classes.aluno import Aluno
 from persistencia.dao import DAO
-
 
 class EquipeDAO(DAO):
     def __init__(self):
